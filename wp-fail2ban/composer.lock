@@ -1,0 +1,101 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0d82ba232a1eaa4f0ab9f61b433b0c06",
+    "packages": [
+        {
+            "name": "freemius/wordpress-sdk",
+            "version": "2.11.0",
+            "dist": {
+                "type": "zip",
+                "url": "../../sdk/wordpress-sdk-2.11.0.zip"
+            },
+            "type": "library"
+        },
+        {
+            "name": "wp-fail2ban/lib-badges",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:wp-fail2ban/lib-badges.git",
+                "reference": "a8fee05510fd055d5db1b613f6deda8640966881"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-fail2ban/lib-badges/zipball/a8fee05510fd055d5db1b613f6deda8640966881",
+                "reference": "a8fee05510fd055d5db1b613f6deda8640966881",
+                "shasum": ""
+            },
+            "require-dev": {
+                "10up/wp_mock": "@stable",
+                "brianium/paratest": "@stable",
+                "dealerdirect/phpcodesniffer-composer-installer": "@stable",
+                "freemius/wordpress-sdk": "@stable",
+                "friendsofphp/php-cs-fixer": "@stable",
+                "mcaskill/composer-exclude-files": "@stable",
+                "mockery/mockery": "@stable",
+                "php-stubs/wordpress-tests-stubs": "@stable",
+                "phpcompatibility/php-compatibility": "@stable",
+                "phpstan/extension-installer": "@stable",
+                "phpstan/phpstan": "@stable",
+                "phpstan/phpstan-deprecation-rules": "@stable",
+                "phpstan/phpstan-mockery": "@stable",
+                "phpstan/phpstan-phpunit": "@stable",
+                "phpstan/phpstan-strict-rules": "@stable",
+                "phpunit/phpunit": "9.*",
+                "pronamic/wp-documentor": "@stable",
+                "squizlabs/php_codesniffer": "@stable",
+                "swissspidy/phpstan-no-private": "@stable",
+                "szepeviktor/phpstan-wordpress": "@stable"
+            },
+            "type": "library",
+            "extra": {
+                "exclude-from-files": [
+                    "freemius/wordpress-sdk/start.php"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "WP_fail2ban\\Lib\\Badges\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "WP_fail2ban\\Lib\\Badges\\Test\\": "test"
+                }
+            },
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Charles Lecklider",
+                    "email": "wordpress@invis.net",
+                    "homepage": "https://invis.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Badges library for WP fail2ban",
+            "support": {
+                "source": "https://github.com/wp-fail2ban/lib-badges/tree/1.4.0",
+                "issues": "https://github.com/wp-fail2ban/lib-badges/issues"
+            },
+            "time": "2025-01-27T11:42:34+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "freemius/wordpress-sdk": 0,
+        "wp-fail2ban/lib-badges": 0
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

@@ -1,0 +1,23 @@
+{
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+        "name": "freemius/wordpress-sdk",
+        "version": "2.11.0",
+        "dist": {
+          "type": "zip",
+          "url": "../../sdk/wordpress-sdk-2.11.0.zip"
+        }
+	    }
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:wp-fail2ban/lib-badges.git"
+		}
+	],
+	"require": {
+		"freemius/wordpress-sdk": "@stable",
+		"wp-fail2ban/lib-badges": "@stable"
+	}
+}
