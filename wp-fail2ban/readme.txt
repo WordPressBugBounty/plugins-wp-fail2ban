@@ -631,3 +631,11 @@ Bug-fix in experimental code; still an experimental release.
 = 2.0.0 =
 This is an experimental release. If your current version is working and you’re not interested in the new features, skip this version - wait for 2.1.0. For those that do want to test this release, note that `wordpress.conf` has changed - you’ll need to copy it to `fail2ban/filters.d` again.
 
+== FAQ ==
+
+= Does WP fail2ban replace fail2ban? =
+
+No. *WP fail2ban* is an "integration" or "bridge" between WordPress and `fail2ban`. It enables `fail2ban` to recognise WordPress-specific events by providing log entries that `fail2ban` can monitor and act upon.
+
+In other words, *WP fail2ban* itself doesn't directly ban IP addresses or manage firewall rules; you must have `fail2ban` installed and correctly configured on your server.
+
