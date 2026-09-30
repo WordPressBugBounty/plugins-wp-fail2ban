@@ -167,12 +167,12 @@ class IpRangeList implements \ArrayAccess, \Countable, \Iterator {
 	 * @since  5.0.0
 	 *
 	 * @param  mixed $offset Key.
-	 * @return bool
+	 * @return IP|null
 	 *
 	 * @codeCoverageIgnore
 	 */
 	#[\ReturnTypeWillChange]
-	public function offsetGet( $offset ): bool {
+	public function offsetGet( $offset ): ?IP {
 		return isset( $this->ranges[ $offset ] ) ? $this->ranges[ $offset ] : null;
 	}
 
@@ -186,7 +186,7 @@ class IpRangeList implements \ArrayAccess, \Countable, \Iterator {
 	 *
 	 * @since  5.0.0
 	 *
-	 * @return int
+	 * @return int<0, max>
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -215,7 +215,7 @@ class IpRangeList implements \ArrayAccess, \Countable, \Iterator {
 	 *
 	 * @since  5.0.0
 	 *
-	 * @return mixed
+	 * @return IP
 	 *
 	 * @codeCoverageIgnore
 	 */
