@@ -87,12 +87,13 @@ class TabSyslog extends TabBase {
 	 * @return void
 	 */
 	public function current_screen(): void {
-		$pre     = array(
+		$pre  = array(
 			__( 'Used to indicate what logging options will be used when generating a log message.', 'wp-fail2ban' ),
 		);
-		$post    = array(
+		$post = array(
 			$this->see_also( array( 'WP_FAIL2BAN_OPENLOG_OPTIONS' ) ),
 		);
+        // phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
 		$fmt     = <<< HTML
 <table><style>th{text-align:left;vertical-align:top;}</style>
   <tr><th scope="row">LOG_CONS</th><td>%s</td></tr>
@@ -183,7 +184,8 @@ HTML;
 	 */
 	public function connection(): void {
 		$options = Config::get( 'WP_FAIL2BAN_OPENLOG_OPTIONS' );
-		$fmt     = <<< HTML
+        // phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
+		$fmt = <<< HTML
 <fieldset>
   <label><input type="checkbox" disabled="disabled" %s> <code>LOG_CONS</code></label><br>
   <label><input type="checkbox" disabled="disabled" %s> <code>LOG_PERROR</code></label><br>
@@ -194,11 +196,14 @@ HTML;
 HTML;
         // phpcs:disable Generic.Functions.FunctionCallArgumentSpacing, PSR2.Methods.FunctionCallSignature.MultipleArguments
 		printf(
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static HTML template.
 			$fmt,
 			checked( $options & LOG_CONS,   LOG_CONS,   false ),
 			checked( $options & LOG_PERROR, LOG_PERROR, false ),
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __() is a static translated string.
 			checked( $options & LOG_PID,    LOG_PID,    false ),
 			__( 'default', 'wp-fail2ban' ),
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __() is a static translated string.
 			checked( $options & LOG_NDELAY, LOG_NDELAY, false ),
 			__( 'default', 'wp-fail2ban' ),
 			checked( $options & LOG_ODELAY, LOG_ODELAY, false )
@@ -228,6 +233,7 @@ HTML;
 	 * @return void
 	 */
 	public function workarounds(): void {
+        // phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
 		$fmt = <<< HTML
 <fieldset>
 <div><label><input type="checkbox" disabled="disabled" %s> %s</label></div>
@@ -237,14 +243,19 @@ HTML;
 </fieldset>
 HTML;
 		printf(
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static HTML template.
 			$fmt,
 			checked( Config::get( 'WP_FAIL2BAN_SYSLOG_SHORT_TAG' ), true, false ),
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __[] is a static translated string.
 			$this->__['workarounds-short-tag'],
 			checked( Config::get( 'WP_FAIL2BAN_HTTP_HOST' ), true, false ),
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __[] is a static translated string.
 			$this->__['workarounds-specify-host'],
 			checked( Config::get( 'WP_FAIL2BAN_TRUNCATE_HOST' ), true, false ),
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __[] is a static translated string.
 			$this->__['workarounds-truncate_host'],
 			checked( Config::get( 'WP_FAIL2BAN_SYSLOG_TAG_HOST' ), true, false ),
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __[] is a static translated string.
 			$this->__['workarounds-tag_host']
 		);
 	}

@@ -10,6 +10,8 @@ namespace org\lecklider\charles\wordpress\wp_fail2ban;
 
 defined( 'ABSPATH' ) or exit;
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Plugin Check strips leading "wp_" from the slug and wrongly rejects the "wp_fail2ban" prefix.
+
 /**
  * Tab: Base class
  *
@@ -128,12 +130,14 @@ abstract class TabBase {
 		if ( is_null( $title ) ) {
 			$title = $this->__[ $id ];
 		}
+        // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public help-tab extension-point names.
 		$paras  = apply_filters( "help-entry::{$id}.paras", $paras );
 		$entry  = apply_filters( "help-entry::{$id}.pre", '' );
 		$entry .= "<dt>{$title}</dt><dd>";
 		$entry .= $this->process_paras( $paras );
 		$entry .= '</dd>';
 		$entry .= apply_filters( "help-entry::{$id}.post", '' );
+        // phpcs:enable
 
 		return $entry;
 	}
@@ -193,6 +197,7 @@ abstract class TabBase {
 	 * @return void
 	 */
 	protected function add_help_tab( $id, $dl, $pre = '', $post = '' ): void {
+        // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public help-tab extension-point names.
 		$pre     = apply_filters( "help-tab::{$id}.pre", $pre );
 		$post    = apply_filters( "help-tab::{$id}.post", $post );
 		$content = $this->process_paras( $pre );
@@ -205,6 +210,7 @@ abstract class TabBase {
 			$content .= $dl;
 			$content .= apply_filters( "help-tab::{$id}.dl.post", '' );
 		}
+        // phpcs:enable
 		$content .= $this->process_paras( $post );
 
 		get_current_screen()->add_help_tab(
@@ -321,14 +327,13 @@ abstract class TabBase {
 	 */
 	protected function render_buttons(): void {
 		printf(
-			'<hr><p><strong>%s:</strong> %s<br>%s</p>',
+			'<hr><p><strong>%s:</strong> %s</p>',
 			__( 'Note', 'wp-fail2ban' ),
 			__(
 				'The Free version of <em>WP fail2ban</em> is configured by defining constants in <code>wp-config.php</code>;
-                these tabs reflect those values.',
+                these tabs show the settings currently in effect.',
 				'wp-fail2ban'
-			),
-			__( 'Upgrade to the Premium version to enable this interface.', 'wp-fail2ban' )
+			)
 		);
 	}
 
@@ -385,8 +390,10 @@ abstract class TabBase {
 			return self::$active_tab;
 		}
 
-		return ( self::$active_tab = ( array_key_exists( $_GET['tab'] ?? '--', self::$tabs ) )
-			? self::$tabs[ $_GET['tab'] ]
+		$tab = sanitize_key( wp_unslash( $_GET['tab'] ?? '' ) );
+
+		return ( self::$active_tab = ( array_key_exists( $tab, self::$tabs ) )
+			? self::$tabs[ $tab ]
 			: self::$tabs[ self::$default_tab ]
 		);
 	}
@@ -432,6 +439,7 @@ abstract class TabBase {
 	 * @return string
 	 */
 	protected function doc_link( string $define ): string {
+        // phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
 		$link = <<< HTML
 <a href="%s/defines/constants/%s.html"
    style="text-decoration: none;"
@@ -546,6 +554,7 @@ HTML;
 	 * @return string
 	 */
 	protected function ndef_disabled( string $define, bool $override = false ): string {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- $define is a WP_FAIL2BAN_* constant name; Plugin Check strips leading "wp_".
 		return disabled( Config::def( $define ) || apply_filters( "{$define}.ndef_disabled", $override ), true, false );
 	}
 
@@ -747,5 +756,16 @@ HTML;
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * Render sidebar content
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return void
+	 */
+	public function render_sidebar(): void {
+		return;
 	}
 }

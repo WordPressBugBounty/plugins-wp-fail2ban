@@ -77,6 +77,7 @@ class TabPlugins extends TabLoggingBase {
 	 * @return void
 	 */
 	public function sectionLoggingEventClasses(): void {
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- __() is a static translated string.
 		echo __( 'Facilities to use for plugin-generated messages. The defaults follow the Core defaults.', 'wp-fail2ban' );
 	}
 

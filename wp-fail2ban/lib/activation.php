@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) or exit;
 \register_activation_hook(
 	WP_FAIL2BAN_FILE,
 	function () {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Plugin Check strips leading "wp_" from the slug and wrongly rejects the "WP_FAIL2BAN" prefix.
 		define( 'WP_FAIL2BAN_ACTIVATING', true );
 
 		foreach ( get_mu_plugins() as $plugin => $data ) {
@@ -22,11 +23,13 @@ defined( 'ABSPATH' ) or exit;
 				if ( is_link( $mu_file ) ) {
 					if ( false === ( $link = readlink( $mu_file ) ) ||
 					false === ( $path = realpath( $mu_file ) ) ) {
-						$h3         = __( 'A broken symbolic link was found in <tt>mu-plugins</tt>:', 'wp-fail2ban' );
-						$error_msg .= <<< HTML
-<h3>{$h3}</h3>
-<p><tt>{$mu_file}</tt></p>
+						$h3 = __( 'A broken symbolic link was found in <tt>mu-plugins</tt>:', 'wp-fail2ban' );
+						// phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
+						$fmt        = <<< HTML
+<h3>%s</h3>
+<p><tt>%s</tt></p>
 HTML;
+						$error_msg .= sprintf( $fmt, $h3, $mu_file );
 					} elseif ( WP_FAIL2BAN_FILE == $path ) {
 						// OK, we're linking to ourself
 						break;
@@ -34,40 +37,44 @@ HTML;
 						$mu_file = str_replace( '/', '/<wbr>', $mu_file );
 						$mu_file = substr( $mu_file, strlen( WPMU_PLUGIN_DIR ) - 1 );
 
-						$h3         = __( 'A conflicting symbolic link was found in <tt>mu-plugins</tt>:', 'wp-fail2ban' );
-						$error_msg .= <<< HTML
-<h3>{$h3}</h3>
+						$h3 = __( 'A conflicting symbolic link was found in <tt>mu-plugins</tt>:', 'wp-fail2ban' );
+						// phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
+						$fmt        = <<< HTML
+<h3>%s</h3>
 <style>
 table { text-align: center; }
-td { width: 50%; }
-th { font-size: 200%; }
+td { width: 50%%; }
+th { font-size: 200%%; }
 td, th { font-family: monospace; }
 span.tt { font-weight: bold; }
 </style>
 <table>
   <tr>
-    <td>{$mu_file}</td>
+    <td>%s</td>
     <th>&DoubleRightArrow;</th>
-    <td>{$link}</td>
+    <td>%s</td>
   </tr>
   <tr>
-    <td colspan="3"><span class="tt">&equiv;</span> <span>{$path}</span></td>
+    <td colspan="3"><span class="tt">&equiv;</span> <span>%s</span></td>
   </tr>
   <tr>
     <td colspan="3"></td>
   </tr>
 </table>
 HTML;
+						$error_msg .= sprintf( $fmt, $h3, $mu_file, $link, $path );
 					}
 				} else {
 							$mu_file = str_replace( '/', '/<wbr>', $mu_file );
 							$mu_file = substr( $mu_file, strlen( WPMU_PLUGIN_DIR ) - 1 );
 
-							$h3         = __( 'A conflicting file was found in <tt>mu-plugins</tt>:', 'wp-fail2ban' );
-							$error_msg .= <<< HTML
-<h3>{$h3}</h3>
-<p><tt>{$mu_file}</tt></p>
+							$h3 = __( 'A conflicting file was found in <tt>mu-plugins</tt>:', 'wp-fail2ban' );
+							// phpcs:ignore PluginCheck.CodeAnalysis.Heredoc.NotAllowed -- Static HTML template.
+							$fmt        = <<< HTML
+<h3>%s</h3>
+<p><tt>%s</tt></p>
 HTML;
+							$error_msg .= sprintf( $fmt, $h3, $mu_file );
 				}
 				$error_msg .= sprintf(
 					'<p>%s</p>',
@@ -93,7 +100,7 @@ HTML;
 				);
 
 				deactivate_plugins( plugin_basename( WP_FAIL2BAN_FILE ) );
-				wp_die( $error_msg );
+				wp_die( $error_msg ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- No external input
 			}
 		}
 

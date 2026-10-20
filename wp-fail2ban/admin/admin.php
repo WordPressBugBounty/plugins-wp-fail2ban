@@ -108,7 +108,7 @@ function readme( string $ver, string $file ): void {
 					if ( $inList ) {
 						echo "</ul></dd>\n";
 					}
-					echo "<dt>{$matches[1]}</dt>\n";
+					echo '<dt>' . esc_html( $matches[1] ) . "</dt>\n";
 					echo "<dd><ul>\n";
 					$inList = true;
 
@@ -118,7 +118,8 @@ function readme( string $ver, string $file ): void {
 					$li = preg_replace( '/`(.*?)`/', '<tt>$1</tt>', $li );
 					$li = preg_replace( '/\*\*(.*?)\*\*/', '<b>$1</b>', $li );
 					$li = preg_replace( '/\*(.*?)\*/', '<i>$1</i>', $li );
-					$li = preg_replace( '|\((h/t .*?)\)|', '<span class="ht">$1</span>', $li );
+					$li = preg_replace( '~\((h/t .*?)\)~', '<span class="ht">$1</span>', $li );
+					$li = preg_replace( '~\[(Back-port from \d+\.\d+\.\d+)\]~', '<span class="ht">$1</span>', $li );
 					$li = preg_replace( '/^(Fix|Deprecate )/', '<span style="color:red">$1</span>', $li );
 					$li = preg_replace( '/^(Update )/', '<span style="color:purple">$1</span>', $li );
 					$li = preg_replace( '/^(Site Health|WAF: )/', '<span style="color:blue">$1</span>', $li );
@@ -130,7 +131,7 @@ function readme( string $ver, string $file ): void {
 						echo '</ul>';
 						$inSubList = false;
 					}
-					echo "<li>{$li}</li>\n";
+					echo '<li>' . wp_kses_post( $li ) . "</li>\n";
 
 				} else {
 					if ( $inList ) {
@@ -188,6 +189,8 @@ function _settings( string $page = null, string $capability = 'manage_options' )
 			"load-$hook",
 			function () use ( $page ) {
 				wp_enqueue_style( 'wpf2b-admin', plugins_url( 'css/admin.css', __FILE__ ) );
+				wp_enqueue_style( 'settings', plugins_url( 'less/settings.css', __FILE__ ), array(), WP_FAIL2BAN_VER );
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Plugin Check strips leading "wp_" from the slug and wrongly rejects the "wp_fail2ban" prefix.
 				apply_filters( 'wp_fail2ban_init_tabs', false );
 				TabBase::setDefaultTab( $page );
 				TabBase::getActiveTab()->current_screen();
@@ -222,6 +225,7 @@ function admin_menu(): void {
 				}
 			);
 			add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu_fix', PHP_INT_MAX );
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Plugin Check strips leading "wp_" from the slug and wrongly rejects the "wp_fail2ban" prefix.
 			do_action( 'wp_fail2ban_menu' );
 
 			_security_settings();
@@ -269,6 +273,7 @@ function _network_admin_menu(): void {
 		}
 	);
 	add_action( 'network_admin_menu', __NAMESPACE__ . '\admin_menu_fix', PHP_INT_MAX );
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Plugin Check strips leading "wp_" from the slug and wrongly rejects the "wp_fail2ban" prefix.
 	do_action( 'wp_fail2ban_menu' );
 
 	_security_settings();
@@ -395,6 +400,7 @@ function admin_head_dashboard(): void {
 			$message
 		);
 	}
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Plugin Check strips leading "wp_" from the slug and wrongly rejects the "wp_fail2ban" prefix.
 	if ( ! empty( $content = apply_filters( 'wp_fail2ban_dashboard_help', $content ) ) ) {
 		get_current_screen()->add_help_tab(
 			array(
