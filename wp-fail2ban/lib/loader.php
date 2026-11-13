@@ -720,7 +720,7 @@ class Config {
 	 * @param  array  $settings   Premium: settings to use
 	 * @return mixed                Constant value
 	 */
-	public static function get( string $define, array $settings = null ) {
+	public static function get( string $define, ?array $settings = null ) {
 		return self::$instance->getter( $define, $settings );
 	}
 
@@ -741,7 +741,7 @@ class Config {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function getter( string $define, array $settings = null ) {
+	public function getter( string $define, ?array $settings = null ) {
 		if ( ! isset( self::$cache[ $define ] ) ) {
 			global $wp_fail2ban;
 
@@ -781,7 +781,7 @@ class Config {
 	 * @param  array  $settings   Premium: settings to use
 	 * @return bool
 	 */
-	public static function set( string $define, $value, array &$settings = null ): bool {
+	public static function set( string $define, $value, ?array &$settings = null ): bool {
 		return self::$instance->setter( $define, $value, $settings );
 	}
 
@@ -798,7 +798,7 @@ class Config {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function setter( string $define, $value, array &$settings = null ): bool {
+	public function setter( string $define, $value, ?array &$settings = null ): bool {
 		return true;
 	}
 

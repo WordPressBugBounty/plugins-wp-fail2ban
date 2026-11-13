@@ -41,8 +41,8 @@ function dashboard_widget_last_messages(): void {
 				'<tr class="%s"><td class="dt"><nobr><tt>%s&nbsp;Z</tt></nobr></td><td class="priority-%s">%s</td><td>%s</td></tr>',
 				$alt ? 'alternate' : '',
 				$message['dt'],
-				esc_attr( strtolower( $message['lvl'] ) ),
-				esc_html( $message['lvl'] ),
+				strtolower( $message['lvl'] ),
+				$message['lvl'],
 				$message['msg']
 			);
 			$alt = ! $alt;

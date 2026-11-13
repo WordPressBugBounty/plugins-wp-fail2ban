@@ -41,7 +41,7 @@ abstract class Syslog {
 					? $_ENV['WP_FAIL2BAN_HTTP_HOST'] // @codeCoverageIgnore
 					: ( $_SERVER['HTTP_HOST'] ?? '' );
 
-		if ( is_multisite() && ! SUBDOMAIN_INSTALL ) {
+		if ( is_multisite() && ! is_subdomain_install() ) {
 			if ( ! is_main_site() ) {
 				$blog  = get_blog_details( get_current_blog_id(), false );
 				$host .= '/' . trim( $blog->path, '/' );
@@ -138,7 +138,7 @@ abstract class Syslog {
 	 *
 	 * @return bool
 	 */
-	public static function write( int $level, string $msg, string $remote_addr = null ): bool {
+	public static function write( int $level, string $msg, ?string $remote_addr = null ): bool {
 		$rv = false;
 
 		if ( null === ( $rv = apply_filters( __METHOD__, null, $level, $msg, $remote_addr ) ) ) {
@@ -156,7 +156,7 @@ abstract class Syslog {
 
 		self::updateLastMessages( $level, $msg );
 
-		return $rv ?? false;
+		return $rv;
 	}
 
 	/**
@@ -188,7 +188,7 @@ abstract class Syslog {
 	 *
 	 * @return bool
 	 */
-	public static function single( int $level, string $msg, string $log = 'WP_FAIL2BAN_AUTH_LOG', string $remote_addr = null ): bool {
+	public static function single( int $level, string $msg, string $log = 'WP_FAIL2BAN_AUTH_LOG', ?string $remote_addr = null ): bool {
 		$rv = false;
 
 		if ( self::open( $log ) ) {
